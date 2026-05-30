@@ -33,14 +33,11 @@ client.once("ready", async () => {
 
     const commands = client.commands.map(cmd => cmd.data);
     try {
-        const guilds = await client.guilds.fetch();
-        for (const [guildId] of guilds) {
-            await rest.put(
-                Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId),
-                { body: commands }
-            );
-            console.log(`Commandes enregistrées dans le serveur ${guildId}`);
-        }
+        await rest.put(
+            Routes.applicationCommands(process.env.CLIENT_ID),
+            { body: commands }
+        );
+        console.log(`${commands.length} commandes enregistrées globalement.`);
     } catch (error) {
         console.error("Erreur lors de l'enregistrement des commandes :", error);
     }
